@@ -4,8 +4,8 @@ on:
   push: {}
 
 permissions:
-      id-token: write
-      contents: read
+  id-token: write
+  contents: read
 
 jobs:
   Test:
