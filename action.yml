@@ -1,0 +1,54 @@
+---
+name: 'Git Flow Enforcement'
+
+description: 'An action for GitHub Actions that enforces and assists with GitFlow.'
+
+inputs:
+  main-branch-name:
+    description: 'The name of the main branch'
+    required: false
+    default: 'main'
+
+  feature-prefix:
+    description: 'Prefix for feature branches'
+    required: false
+    default: 'feature/'
+
+  bugfix-prefix:
+    description: 'Prefix for bugfix branches'
+    required: false
+    default: 'bugfix/'
+
+  release-prefix:
+    description: 'Prefix for release branches'
+    required: false
+    default: 'release/'
+
+  hotfix-prefix:
+    description: 'Prefix for hotfix branches'
+    required: false
+    default: 'hotfix/'
+
+  support-prefix:
+    description: 'Prefix for support branches'
+    required: false
+    default: 'support/'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12
+
+    - name: Install Python dependencies
+      run: pip install -r .github/requirements/requirements.txt
+      shell: bash
+
+    - name: Run Git Flow enforcement script
+      run: python ./.github/scripts/enforce_git_flow.py
+      shell: bash
