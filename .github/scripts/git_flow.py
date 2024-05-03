@@ -1,10 +1,14 @@
 """A GitHub Action that enforces and assists with GitFlow."""
+import json
 import logging
 import os
 import sys
-import json
 
+from ghapi.all import GhApi
 from git import Repo
+
+
+api = GhApi()
 
 
 class PullRequest:
@@ -76,6 +80,10 @@ class GitFlow:
 
         event_name = os.getenv('GITHUB_EVENT_NAME', 'push')
         self.event_name(event_name)
+
+        self.github_repo(os.getenv('GITHUB_REPOSITORY', 'cbdq-io/gitflow-action'))
+        self.owner = self.github_repo().split('/')[0]
+        self.repo = self.github_repo().split('/')[1]
 
         repo = Repo('.')
 
@@ -335,6 +343,28 @@ class GitFlow:
 
         return logging.INFO
 
+    def github_repo(self, github_repo: str = None) -> str:
+        """
+        Get or set the GitHub repo name.
+
+        Parameters
+        ----------
+        github_repo : str, optional
+            The GitHub repo to be set, by default None
+
+        Returns
+        -------
+        str
+            The GitHub repo that is set.
+        """
+        logger = self.logger()
+
+        if github_repo is not None:
+            logger.debug(f'GitHub repo is "{github_repo}".')
+            self._github_repo = github_repo
+
+        return self._github_repo
+
     def hotfix_branch_prefix(self, hotfix_branch_prefix: str = None) -> str:
         """
         Get or set the hotfix branch prefix.
@@ -449,6 +479,14 @@ class GitFlow:
 
         if release_candidate is not None:
             logger.debug(f'Release candidate is "{release_candidate}".')
+            display_tag = self.version_tag_prefix() + release_candidate
+            existing_tags = api.repos.list_tags(self.owner, self.repo)
+
+            if display_tag in existing_tags:
+                logger.debug(f'The tag "{display_tag}" already exists.')
+            else:
+                logger.debug(f'The tag "{display_tag}" is yet to be created.')
+
             self._release_candidate = release_candidate
 
         return self._release_candidate
