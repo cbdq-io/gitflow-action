@@ -535,7 +535,12 @@ class GitFlow:
             Return true if tag exists.
         """
         existing_tags = api.repos.list_tags(self.owner, self.repo)
-        return tag_name in existing_tags
+
+        for tag in existing_tags:
+            if tag_name == tag.name:
+                return True
+
+        return False
 
     def logger(self, logger: logging.Logger = None) -> logging.Logger:
         """
