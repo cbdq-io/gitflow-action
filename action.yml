@@ -48,11 +48,11 @@ runs:
   using: 'docker'
   image: Dockerfile
   args:
-    - ${{ input.main-branch-name }}
-    - ${{ input.develop-branch-name }}
-    - ${{ input.feature-prefix }}
-    - ${{ input.bugfix-prefix }}
-    - ${{ input.release-prefix }}
-    - ${{ input.hotfix-prefix }}
-    - ${{ input.support-prefix }}
-    - ${{ input.version-tag-prefix }}
+    - ${{ inputs.main-branch-name }}
+    - ${{ inputs.develop-branch-name }}
+    - ${{ inputs.feature-prefix }}
+    - ${{ inputs.bugfix-prefix }}
+    - ${{ inputs.release-prefix }}
+    - ${{ inputs.hotfix-prefix }}
+    - ${{ inputs.support-prefix }}
+    - ${{ inputs.version-tag-prefix }}
