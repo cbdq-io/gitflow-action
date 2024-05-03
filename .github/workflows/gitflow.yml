@@ -27,4 +27,4 @@ jobs:
           pip install -r .github/requirements/requirements.txt
 
       - name: Enforce Git Flow
-        run: python .github/scripts/git_flow.py
+        run: python .github/scripts/git_flow.py main develop feature/ bugfix/ release/ hotfix/ support/ 'v'

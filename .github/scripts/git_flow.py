@@ -40,12 +40,14 @@ class GitFlow:
         The name of the main branch (e.g. "main" or "master").
     develop_branch : str
         The name of the develop branch (e.g. "develop").
+    version_tag_prefix : str
+        The prefix to be applied to version tags.
     prefixes : tuple
         The prefixes for the feature, bugfix, release, hotfix and support
         branches respectively.
     """
 
-    def __init__(self, main_branch: str, develop_branch: str, *prefixis: tuple) -> None:
+    def __init__(self, main_branch: str, develop_branch: str, version_tag_prefix: str, *prefixes: tuple) -> None:
         """Create a GitFlow object."""
         self._branch = {
             'main': None,
@@ -90,6 +92,7 @@ class GitFlow:
         self.release_branch_prefix(release_prefix)
         self.hotfix_branch_prefix(hotfix_prefix)
         self.support_branch_prefix(support_prefix)
+        self.version_tag_prefix(version_tag_prefix)
 
     def active_branch(self, active_branch: str = None) -> str:
         """
@@ -419,12 +422,35 @@ class GitFlow:
         """
         return self.branch_prefix('support', support_branch_prefix)
 
+    def version_tag_prefix(self, version_tag_prefix: str = None) -> str:
+        """
+        Get or set the version tag prefix.
+
+        Parameters
+        ----------
+        version_tag_prefix : str, optional
+            The version tag prefix to be set, by default None
+
+        Returns
+        -------
+        str
+            The set version tag prefix.
+        """
+        logger = self.logger()
+
+        if version_tag_prefix is not None:
+            logger.debug(f'Version tag prefix is "{version_tag_prefix}".')
+            self._version_tag_prefix = version_tag_prefix
+
+        return self._version_tag_prefix
+
 
 if __name__ == '__main__':
     main_branch = sys.argv[1]
     develop_branch = sys.argv[2]
     prefixes = sys.argv[3:8]
-    gitflow = GitFlow(main_branch, develop_branch, *prefixes)
+    version_tag_prefix = sys.argv[8]
+    gitflow = GitFlow(main_branch, develop_branch, version_tag_prefix, *prefixes)
 
     if gitflow.is_ok():
         gitflow.logger().info('All is OK.')
