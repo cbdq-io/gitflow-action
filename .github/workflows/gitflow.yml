@@ -23,7 +23,7 @@ jobs:
 
       - name: Retrieve Release Candidate Name
         id: version
-        run: echo "RELEASE_CANDIDATE_TAG=$( python -c 'from git_flow import __version__; print(__version__) )" >> $GITHUB_OUTPUT
+        run: echo "RELEASE_CANDIDATE_TAG=$( python -c 'from git_flow import __version__; print(__version__)' )" >> $GITHUB_OUTPUT
         env:
           PYTHONPATH: .github/scripts
 
