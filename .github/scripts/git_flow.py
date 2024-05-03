@@ -201,7 +201,7 @@ class GitFlow:
         """
         branch_name = self.active_branch()
 
-        if branch_name in [self.main_branch_name, self.develop_branch_name]:
+        if branch_name in [self.main_branch_name(), self.develop_branch_name()]:
             return True
 
         prefixes = [
