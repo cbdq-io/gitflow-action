@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import sys
+from fastcore.net import HTTP403ForbiddenError
 
 from ghapi.all import GhApi
 from git import Repo
@@ -600,9 +601,12 @@ if __name__ == '__main__':
     release_candidate = sys.argv[9]
     gitflow = GitFlow(main_branch, develop_branch, version_tag_prefix, release_candidate, *prefixes)
 
-    if gitflow.is_ok():
-        gitflow.logger().debug(f'Command line args were "{sys.argv}".')
-        gitflow.logger().info('All is OK.')
-        sys.exit(0)
+    try:
+        if gitflow.is_ok():
+            gitflow.logger().debug(f'Command line args were "{sys.argv}".')
+            gitflow.logger().info('All is OK.')
+            sys.exit(0)
+    except HTTP403ForbiddenError as ex:
+        gitflow.logger().error(ex)
 
     sys.exit(1)
