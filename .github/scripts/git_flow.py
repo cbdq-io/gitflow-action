@@ -294,9 +294,8 @@ class GitFlow:
             logging.INFO unless the environment variable ACTIONS_RUNNER_DEBUG
             is set to "true", in which case return logging.DEBUG.
         """
-        affirmative_values = [1, 'true', 'yes']
+        affirmative_values = ['1', 'true', 'yes']
         actions_runner_debug = os.getenv('ACTIONS_RUNNER_DEBUG', 'false').lower()
-        print(actions_runner_debug)
 
         if actions_runner_debug in affirmative_values:
             return logging.DEBUG
