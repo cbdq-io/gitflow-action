@@ -201,6 +201,8 @@ class GitFlow:
             logger.error(f'Base branch "{pull_request.base_branch}" is not suitable for "{pull_request.head_branch}".')
             self.status(False)
 
+        self.check_release_names()
+
     def check_branch_name(self) -> bool:
         """
         Check the branch name against a list of allowed prefixes.
@@ -223,6 +225,35 @@ class GitFlow:
             self._prefix['support']
         ]
         return any(branch_name.startswith(prefix) for prefix in prefixes if prefix)
+
+    def check_release_names(self) -> None:
+        """
+        Check release candidate matches branch name.
+
+        Only relevant if release_candidate is set and active branch is a
+        release or hotfix branch.
+        """
+        release_candidate = self.release_candidate()
+        active_branch = self.active_branch()
+        hotfix_prefix = self.hotfix_branch_prefix()
+        release_prefix = self.release_branch_prefix()
+        logger = self.logger()
+
+        if release_candidate == '':
+            logger.debug('No release candidate provided.')
+            return
+        elif not active_branch.startswith(hotfix_prefix) and not active_branch.startswith(release_prefix):
+            logger.debug('Not a PR for a hotfix or release branch.')
+            return
+
+        branch_tag_name = active_branch.split['/'][-1]
+        logger.debug(f'Tag according to branch name is "{branch_tag_name}".')
+
+        if branch_tag_name != release_candidate:
+            message = f'Hotfix/release branch is called "{active_branch}" '
+            message += 'but release candidate is "{release_candidate}".'
+            logger.error(message)
+            self.status(False)
 
     def develop_branch_name(self, develop_branch_name: str = None) -> str:
         """
