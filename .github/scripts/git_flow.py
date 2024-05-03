@@ -265,6 +265,72 @@ class GitFlow:
             logger.error(message)
             self.status(False)
 
+    def create_branch(self, branch_name: str) -> None:
+        """
+        Create a branch from main to be merged to develop.
+
+        Parameters
+        ----------
+        branch_name : str
+            The name of the branch to be created.
+        """
+        logger = self.logger()
+        existing_branches = api.repos.list_branches(self.owner, self.repo)
+        source_sha = None
+
+        for branch in existing_branches:
+            if branch.name == branch_name:
+                logger.info(f'A branch called "{branch_name}" already exists.')
+                return
+
+            if branch.name == self.main_branch_name():
+                source_sha = branch.commit.sha
+
+        if not source_sha:
+            logger.error(f'Unable to find branch "{self.main_branch_name()}".')
+            sys.exit(1)
+
+        api.git.create_ref(
+            ref=f'refs/heads/{branch_name}',
+            sha=source_sha
+        )
+        logger.info(f'Successfully create branch "{branch_name}".')
+
+    def create_pull_request(self, base_branch: str, head_branch: str) -> None:
+        """
+        Create a pull request to develop after a push to main.
+
+        Parameters
+        ----------
+        base_branch : str
+            The name of the base branch (e.g. develop).
+        head_branch : str
+            The name of the head branch (e.g. bugfix/post-v0.1.0).
+        """
+        logger = self.logger()
+        existing_prs = api.pulls.list(
+            self.owner,
+            self.repo,
+            state='open',
+            base=base_branch,
+            head=head_branch
+        )
+
+        if len(existing_prs) >= 1:
+            logger.debug(f'A pull request already exists to merge {head_branch} into {base_branch}.')
+            return
+
+        body = f"""
+        Changes made during release {self.release_candidate()} that are to
+        be merged back to {self.develop_branch_name()}.
+        """
+        api.pulls.create(
+            title=f'Post Release {self.release_candidate()}',
+            head=head_branch,
+            base=base_branch,
+            body=' '.join(body.split('\n'))
+        )
+
     def create_tag(self, tag_name: str) -> None:
         """
         Create a tag in the rep.
@@ -505,28 +571,17 @@ class GitFlow:
 
     def push_to_main(self) -> bool:
         """Run processes after pushing to main."""
-        display_tag = self.version_tag_prefix() + self.release_candidate()
         logger = self.logger()
 
         if self.release_candidate():
-            if self.is_tag_present(display_tag):
-                logger.info(f'A tag called "{display_tag}" already exists.')
-            else:
-                logger.info(f'Creating a tag "{display_tag}".')
-                tag_response = api.git.create_tag(
-                    self.owner,
-                    self.repo,
-                    tag=display_tag,
-                    object=os.getenv('GITHUB_SHA'),
-                    type='commit',
-                    message=display_tag
-                )
-                api.git.create_ref(
-                    self.owner,
-                    self.repo,
-                    ref=f'refs/tags/{display_tag}',
-                    sha=tag_response.sha
-                )
+            logger.debug(f'No release candidate so nothing to be done after push to {self.main_branch_name()}.')
+            return
+
+        display_tag = self.version_tag_prefix() + self.release_candidate()
+        self.create_tag(display_tag)
+        branch_name = f'{self.bugfix_branch_prefix()}/post-{display_tag}'
+        self.create_branch(branch_name)
+        self.create_pull_request(self.develop_branch_name(), branch_name)
 
     def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
         """
