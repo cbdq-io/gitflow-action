@@ -488,7 +488,8 @@ class GitFlow:
                     self.repo,
                     tag=display_tag,
                     object=os.getenv('GITHUB_SHA'),
-                    type='commit'
+                    type='commit',
+                    message=display_tag
                 )
 
     def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
