@@ -265,6 +265,36 @@ class GitFlow:
             logger.error(message)
             self.status(False)
 
+    def create_tag(self, tag_name: str) -> None:
+        """
+        Create a tag in the rep.
+
+        Parameters
+        ----------
+        tag_name : str
+            The name of the tag to be created.
+        """
+        logger = self.logger()
+
+        if self.is_tag_present(tag_name):
+            logger.info(f'A tag called "{tag_name}" already exists.')
+        else:
+            logger.info(f'Creating a tag "{tag_name}".')
+            tag_response = api.git.create_tag(
+                self.owner,
+                self.repo,
+                tag=tag_name,
+                object=os.getenv('GITHUB_SHA'),
+                type='commit',
+                message=tag_name
+            )
+            api.git.create_ref(
+                self.owner,
+                self.repo,
+                ref=f'refs/tags/{tag_name}',
+                sha=tag_response.sha
+            )
+
     def develop_branch_name(self, develop_branch_name: str = None) -> str:
         """
         Get or set the develop branch name.
@@ -497,7 +527,6 @@ class GitFlow:
                     ref=f'refs/tags/{display_tag}',
                     sha=tag_response.sha
                 )
-
 
     def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
         """
