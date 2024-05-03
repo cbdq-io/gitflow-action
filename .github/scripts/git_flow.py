@@ -6,7 +6,6 @@ import sys
 from fastcore.net import HTTP403ForbiddenError
 
 from ghapi.all import GhApi
-from git import Repo
 
 
 __version__ = '0.1.0'
@@ -96,6 +95,9 @@ class GitFlow:
             logger.debug(f'Nothing implemented for "{event_name}" events.')
             self.active_branch(develop_branch)
             return
+
+        if active_branch_name.startswith('refs/heads'):
+            active_branch_name = '/'.join(active_branch_name.split('/')[2:])
 
         self.active_branch(active_branch_name)
 
