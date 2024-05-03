@@ -246,7 +246,7 @@ class GitFlow:
             logger.debug('Not a PR for a hotfix or release branch.')
             return
 
-        branch_tag_name = active_branch.split['/'][-1]
+        branch_tag_name = active_branch.split('/')[-1]
         logger.debug(f'Tag according to branch name is "{branch_tag_name}".')
 
         if branch_tag_name != release_candidate:
