@@ -295,7 +295,10 @@ class GitFlow:
             is set to "true", in which case return logging.DEBUG.
         """
         affirmative_values = [1, 'true', 'yes']
-        if os.getenv('ACTIONS_RUNNER_DEBUG', 'false').lower() in affirmative_values:
+        actions_runner_debug = os.getenv('ACTIONS_RUNNER_DEBUG', 'false').lower()
+        print(actions_runner_debug)
+
+        if actions_runner_debug in affirmative_values:
             return logging.DEBUG
 
         return logging.INFO
