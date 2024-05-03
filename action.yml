@@ -45,20 +45,14 @@ inputs:
     default: ""
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.12
-
-    - name: Install Python dependencies
-      run: pip install -r .github/requirements/requirements.txt
-      shell: bash
-
-    - name: Run Git Flow enforcement script
-      run: python ./.github/scripts/enforce_git_flow.py
-      shell: bash
+  using: 'docker'
+  image: Dockerfile
+  args:
+    - ${{ input.main-branch-name }}
+    - ${{ input.develop-branch-name }}
+    - ${{ input.feature-prefix }}
+    - ${{ input.bugfix-prefix }}
+    - ${{ input.release-prefix }}
+    - ${{ input.hotfix-prefix }}
+    - ${{ input.support-prefix }}
+    - ${{ input.version-tag-prefix }}
