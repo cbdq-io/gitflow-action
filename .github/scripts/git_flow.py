@@ -338,6 +338,8 @@ class GitFlow:
         be merged back to {self.develop_branch_name()}.
         """
         api.pulls.create(
+            self.owner,
+            self.repo,
             title=f'Post Release {self.release_candidate()}',
             head=head_branch,
             base=base_branch,
