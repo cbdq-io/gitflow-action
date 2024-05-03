@@ -332,6 +332,7 @@ class GitFlow:
             logger.debug(f'A pull request already exists to merge {head_branch} into {base_branch}.')
             return
 
+        logger.info(f'Creating a PR to merge {head_branch} in {base_branch}.')
         body = f"""
         Changes made during release {self.release_candidate()} that are to
         be merged back to {self.develop_branch_name()}.
