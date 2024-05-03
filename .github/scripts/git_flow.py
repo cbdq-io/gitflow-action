@@ -596,7 +596,7 @@ class GitFlow:
 
         display_tag = self.version_tag_prefix() + self.release_candidate()
         self.create_tag(display_tag)
-        branch_name = f'{self.bugfix_branch_prefix()}/post-{display_tag}'
+        branch_name = f'{self.bugfix_branch_prefix()}post-{display_tag}'
         self.create_branch(branch_name)
         self.create_pull_request(self.develop_branch_name(), branch_name)
 
