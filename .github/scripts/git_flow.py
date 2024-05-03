@@ -494,6 +494,7 @@ if __name__ == '__main__':
     gitflow = GitFlow(main_branch, develop_branch, version_tag_prefix, release_candidate, *prefixes)
 
     if gitflow.is_ok():
+        gitflow.logger().debug(f'Command line args were "{" ".join(sys.argv)}".')
         gitflow.logger().info('All is OK.')
         sys.exit(0)
 
