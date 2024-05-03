@@ -483,7 +483,7 @@ class GitFlow:
                 logger.info(f'A tag called "{display_tag}" already exists.')
             else:
                 logger.info(f'Creating a tag "{display_tag}".')
-                api.git.create_tag(
+                tag_response = api.git.create_tag(
                     self.owner,
                     self.repo,
                     tag=display_tag,
@@ -491,6 +491,13 @@ class GitFlow:
                     type='commit',
                     message=display_tag
                 )
+                api.git.create_ref(
+                    self.owner,
+                    self.repo,
+                    ref=f'refs/tags/{display_tag}',
+                    sha=tag_response.sha
+                )
+
 
     def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
         """
