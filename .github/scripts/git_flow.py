@@ -42,6 +42,8 @@ class GitFlow:
         The name of the develop branch (e.g. "develop").
     version_tag_prefix : str
         The prefix to be applied to version tags.
+    release_candidate : str
+        The name of the next release.
     prefixes : tuple
         The prefixes for the feature, bugfix, release, hotfix and support
         branches respectively.
