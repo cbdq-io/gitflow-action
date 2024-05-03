@@ -87,13 +87,11 @@ class GitFlow:
         self.owner = self.github_repo().split('/')[0]
         self.repo = self.github_repo().split('/')[1]
 
-        repo = Repo('.')
-
         if event_name == 'pull_request':
             pr = PullRequest()
             active_branch_name = pr.head_branch
         else:
-            active_branch_name = repo.active_branch.name
+            active_branch_name = os.getenv('GITHUB_REF')
 
         self.active_branch(active_branch_name)
 
