@@ -8,6 +8,7 @@ from ghapi.all import GhApi
 from git import Repo
 
 
+__version__ = '0.1.0'
 api = GhApi()
 
 
@@ -402,7 +403,34 @@ class GitFlow:
             logger.debug(f'Pull request head branch is "{pull_request.head_branch}".')
             self.check_base_branch(pull_request)
 
+        if self.status() and self.is_push_to_main():
+            self.push_to_main()
+
         return self.status()
+
+    def is_push_to_main(self) -> bool:
+        """Return True if the GitHub action is due to a push to the main branch."""
+        if self.event_name() == 'pull' and self.active_branch() == self.main_branch_name():
+            return True
+
+        return False
+
+    def is_tag_present(self, tag_name: str) -> bool:
+        """
+        Check if tag exists in a repo.
+
+        Parameters
+        ----------
+        tag_name : str
+            The name of the tag to check for.
+
+        Returns
+        -------
+        bool
+            Return true if tag exists.
+        """
+        existing_tags = api.repos.list_tags(self.owner, self.repo)
+        return tag_name in existing_tags
 
     def logger(self, logger: logging.Logger = None) -> logging.Logger:
         """
@@ -445,6 +473,17 @@ class GitFlow:
 
         return self._branch['main']
 
+    def push_to_main(self) -> bool:
+        """Run processes after pushing to main."""
+        display_tag = self.version_tag_prefix() + self.release_candidate()
+        logger = self.logger()
+
+        if self.release_candidate():
+            if self.is_tag_present(display_tag):
+                logger.info(f'A tag called "{display_tag}" already exists.')
+            else:
+                api.git.create_tag(self.owner, self.repo, display_tag)
+
     def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
         """
         Get or set the release branch prefix.
@@ -480,9 +519,8 @@ class GitFlow:
         if release_candidate is not None:
             logger.debug(f'Release candidate is "{release_candidate}".')
             display_tag = self.version_tag_prefix() + release_candidate
-            existing_tags = api.repos.list_tags(self.owner, self.repo)
 
-            if display_tag in existing_tags:
+            if self.is_tag_present(display_tag):
                 logger.debug(f'The tag "{display_tag}" already exists.')
             else:
                 logger.debug(f'The tag "{display_tag}" is yet to be created.')

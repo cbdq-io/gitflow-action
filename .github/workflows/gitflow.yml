@@ -2,13 +2,8 @@
 name: Git Flow Enforcement
 
 on:
-  push:
-    branches-ignore:
-      - 'main'
-      - 'develop'
-  pull_request:
-    branches:
-      - 'develop'
+  - pull_request
+  - push
 
 jobs:
   enforce-git-flow:
@@ -26,5 +21,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r .github/requirements/requirements.txt
 
-      - name: Enforce Git Flow
-        run: python .github/scripts/git_flow.py main develop feature/ bugfix/ release/ hotfix/ support/ 'v' ''
+      - name: Retrieve Release Candidate Name
+        id: version
+        run: echo "RELEASE_CANDIDATE_TAG=$( python -c 'from git_flow import __version__; print(__version__) )" >> $GITHUB_OUTPUT
+        env:
+          PYTHONPATH: .github/scripts
+
+      - name: Git Flow Action
+        run: python .github/scripts/git_flow.py main develop feature/ bugfix/ release/ hotfix/ support/ 'v' ${{ steps.version.outputs.RELEASE_CANDIDATE_TAG }}
+        env:
+          # Setting this environment variable means we can debug by re-running
+          # workflows and ticking "Enable debug logging".
+          ACTIONS_RUNNER_DEBUG: ${{ runner.debug }}
+
+          # Provide a GitHub token to be able to interface with the
+          # GitHub API.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
