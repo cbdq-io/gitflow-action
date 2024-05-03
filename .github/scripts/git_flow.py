@@ -90,8 +90,12 @@ class GitFlow:
         if event_name == 'pull_request':
             pr = PullRequest()
             active_branch_name = pr.head_branch
+        elif event_name == 'push':
+            active_branch_name = os.getenv('GITHUB_REF', develop_branch)
         else:
-            active_branch_name = os.getenv('GITHUB_REF')
+            logger.debug(f'Nothing implemented for "{event_name}" events.')
+            self.active_branch(develop_branch)
+            return
 
         self.active_branch(active_branch_name)
 
