@@ -482,6 +482,7 @@ class GitFlow:
             if self.is_tag_present(display_tag):
                 logger.info(f'A tag called "{display_tag}" already exists.')
             else:
+                logger.info(f'Creating a tag "{display_tag}".')
                 api.git.create_tag(self.owner, self.repo, display_tag)
 
     def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
