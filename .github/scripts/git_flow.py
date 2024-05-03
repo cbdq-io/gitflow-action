@@ -251,7 +251,7 @@ class GitFlow:
 
         if branch_tag_name != release_candidate:
             message = f'Hotfix/release branch is called "{active_branch}" '
-            message += 'but release candidate is "{release_candidate}".'
+            message += f'but release candidate is "{release_candidate}".'
             logger.error(message)
             self.status(False)
 
