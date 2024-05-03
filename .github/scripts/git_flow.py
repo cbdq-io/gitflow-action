@@ -96,7 +96,7 @@ class GitFlow:
             self.active_branch(develop_branch)
             return
 
-        if active_branch_name.startswith('refs/heads'):
+        if active_branch_name.startswith('refs/'):
             active_branch_name = '/'.join(active_branch_name.split('/')[2:])
 
         self.active_branch(active_branch_name)
