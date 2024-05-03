@@ -299,11 +299,12 @@ class GitFlow:
             logger.error(f'Unable to find branch "{self.main_branch_name()}".')
             sys.exit(1)
 
+        logger.debug(f'Creating a branch from {self.main_branch_name()} ({source_sha}).')
         api.git.create_ref(
             ref=f'refs/heads/{branch_name}',
             sha=source_sha
         )
-        logger.info(f'Successfully create branch "{branch_name}".')
+        logger.info(f'Successfully created branch "{branch_name}".')
 
     def create_pull_request(self, base_branch: str, head_branch: str) -> None:
         """
