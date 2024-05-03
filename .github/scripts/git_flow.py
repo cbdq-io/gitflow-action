@@ -301,6 +301,8 @@ class GitFlow:
 
         logger.debug(f'Creating a branch from {self.main_branch_name()} ({source_sha}).')
         api.git.create_ref(
+            self.owner,
+            self.repo,
             ref=f'refs/heads/{branch_name}',
             sha=source_sha
         )
