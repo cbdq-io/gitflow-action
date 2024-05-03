@@ -200,6 +200,10 @@ class GitFlow:
             True if the branch name is valid, False otherwise.
         """
         branch_name = self.active_branch()
+
+        if branch_name in [self.main_branch_name, self.develop_branch_name]:
+            return True
+
         prefixes = [
             self._prefix['feature'],
             self._prefix['bugfix'],
