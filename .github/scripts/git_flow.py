@@ -402,15 +402,14 @@ class GitFlow:
             logger.debug(f'Pull request base branch is "{pull_request.base_branch}".')
             logger.debug(f'Pull request head branch is "{pull_request.head_branch}".')
             self.check_base_branch(pull_request)
-
-        if self.status() and self.is_push_to_main():
+        elif self.status() and self.is_push_to_main():
             self.push_to_main()
 
         return self.status()
 
     def is_push_to_main(self) -> bool:
         """Return True if the GitHub action is due to a push to the main branch."""
-        if self.event_name() == 'pull' and self.active_branch() == self.main_branch_name():
+        if self.event_name() == 'push' and self.active_branch() == self.main_branch_name():
             return True
 
         return False
