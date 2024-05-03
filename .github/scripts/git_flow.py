@@ -573,7 +573,7 @@ class GitFlow:
         """Run processes after pushing to main."""
         logger = self.logger()
 
-        if self.release_candidate():
+        if not self.release_candidate():
             logger.debug(f'No release candidate so nothing to be done after push to {self.main_branch_name()}.')
             return
 
