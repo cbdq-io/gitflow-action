@@ -44,6 +44,11 @@ inputs:
     required: false
     default: ""
 
+  release-candidate:
+    description: The name of the next release.
+    required: false
+    default: ""
+
 runs:
   using: 'docker'
   image: Dockerfile
@@ -56,3 +61,4 @@ runs:
     - ${{ inputs.hotfix-prefix }}
     - ${{ inputs.support-prefix }}
     - ${{ inputs.version-tag-prefix }}
+    - ${{ inputs.release-candidate }}

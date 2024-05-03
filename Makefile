@@ -12,4 +12,4 @@ requirements:
 	pip install -r .github/requirements/requirements.txt -r requirements-dev.txt
 
 test:
-	docker run --rm -v '.:/mnt/src' -w /mnt/src gitflow:latest main develop feature/ bugfix/ release/ hotfix/ support/ 'v'
+	docker run --rm -e ACTIONS_RUNNER_DEBUG=true -v '.:/mnt/src' -w /mnt/src gitflow:latest main develop feature/ bugfix/ release/ hotfix/ support/ 'v' 0.1.0
