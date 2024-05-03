@@ -79,6 +79,23 @@ class GitFlow:
         self.logger(logger)
         self.status(True)
 
+        self.main_branch_name(main_branch)
+        self.develop_branch_name(develop_branch)
+        (
+            feature_prefix,
+            bugfix_prefix,
+            release_prefix,
+            hotfix_prefix,
+            support_prefix
+        ) = prefixes
+        self.feature_branch_prefix(feature_prefix)
+        self.bugfix_branch_prefix(bugfix_prefix)
+        self.release_branch_prefix(release_prefix)
+        self.hotfix_branch_prefix(hotfix_prefix)
+        self.support_branch_prefix(support_prefix)
+        self.version_tag_prefix(version_tag_prefix)
+        self.release_candidate(release_candidate)
+
         event_name = os.getenv('GITHUB_EVENT_NAME', 'push')
         self.event_name(event_name)
 
@@ -105,23 +122,6 @@ class GitFlow:
             active_branch_name = '/'.join(active_branch_name.split('/')[2:])
 
         self.active_branch(active_branch_name)
-
-        self.main_branch_name(main_branch)
-        self.develop_branch_name(develop_branch)
-        (
-            feature_prefix,
-            bugfix_prefix,
-            release_prefix,
-            hotfix_prefix,
-            support_prefix
-        ) = prefixes
-        self.feature_branch_prefix(feature_prefix)
-        self.bugfix_branch_prefix(bugfix_prefix)
-        self.release_branch_prefix(release_prefix)
-        self.hotfix_branch_prefix(hotfix_prefix)
-        self.support_branch_prefix(support_prefix)
-        self.version_tag_prefix(version_tag_prefix)
-        self.release_candidate(release_candidate)
 
     def active_branch(self, active_branch: str = None) -> str:
         """
