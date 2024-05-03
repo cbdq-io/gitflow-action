@@ -119,7 +119,7 @@ class GitFlow:
         logger = self.logger()
 
         if active_branch is not None:
-            logger.info(f'The active branch is "{active_branch}".')
+            logger.debug(f'The active branch is "{active_branch}".')
             self._active_branch = active_branch
 
         return self._active_branch
@@ -147,7 +147,7 @@ class GitFlow:
             sys.exit(1)
 
         if prefix is not None:
-            logger.info(f'Prefix for {branch_type} branches is "{prefix}".')
+            logger.debug(f'Prefix for {branch_type} branches is "{prefix}".')
             self._prefix[branch_type] = prefix
 
         return self._prefix[branch_type]
@@ -193,7 +193,7 @@ class GitFlow:
         elif self.active_branch().startswith(self.release_branch_prefix()):
             valid_base_branches = [self.main_branch_name()]
 
-        logger.info(f'Valid base branches are "{", ".join(valid_base_branches)}".')
+        logger.debug(f'Valid base branches are "{", ".join(valid_base_branches)}".')
 
         if pull_request.base_branch not in valid_base_branches:
             logger.error(f'Base branch "{pull_request.base_branch}" is not suitable for "{pull_request.head_branch}".')
@@ -239,7 +239,7 @@ class GitFlow:
         logger = self.logger()
 
         if develop_branch_name is not None:
-            logger.info(f'Develop branch name is "{develop_branch_name}".')
+            logger.debug(f'Develop branch name is "{develop_branch_name}".')
             self._branch['develop'] = develop_branch_name
 
         return self._branch['develop']
@@ -263,7 +263,7 @@ class GitFlow:
         logger = self.logger()
 
         if event_name is not None:
-            logger.info(f'Event name is "{event_name}".')
+            logger.debug(f'Event name is "{event_name}".')
             self._event_name = event_name
 
         return self._event_name
@@ -291,10 +291,10 @@ class GitFlow:
         Returns
         -------
         int
-            logging.INFO unless the environment variable ACTIONS_RUNNER_DEBUG
+            logging.INFO unless the environment variable ACTIONS_STEP_DEBUG
             is set to "true", in which case return logging.DEBUG.
         """
-        if os.getenv('ACTIONS_RUNNER_DEBUG', 'false') == 'true':
+        if os.getenv('ACTIONS_STEP_DEBUG', 'false').lower() == 'true':
             return logging.DEBUG
 
         return logging.INFO
@@ -332,8 +332,8 @@ class GitFlow:
 
         if self.event_name() == 'pull_request':
             pull_request = PullRequest()
-            logger.info(f'Pull request base branch is "{pull_request.base_branch}".')
-            logger.info(f'Pull request head branch is "{pull_request.head_branch}".')
+            logger.debug(f'Pull request base branch is "{pull_request.base_branch}".')
+            logger.debug(f'Pull request head branch is "{pull_request.head_branch}".')
             self.check_base_branch(pull_request)
 
         return self.status()
@@ -374,7 +374,7 @@ class GitFlow:
         logger = self.logger()
 
         if main_branch_name is not None:
-            logger.info(f'Main branch name is "{main_branch_name}".')
+            logger.debug(f'Main branch name is "{main_branch_name}".')
             self._branch['main'] = main_branch_name
 
         return self._branch['main']
@@ -412,7 +412,7 @@ class GitFlow:
         logger = self.logger()
 
         if release_candidate is not None:
-            logger.info(f'Release candidate is "{release_candidate}".')
+            logger.debug(f'Release candidate is "{release_candidate}".')
             self._release_candidate = release_candidate
 
         return self._release_candidate
@@ -436,7 +436,7 @@ class GitFlow:
         logger = self.logger()
 
         if status is not None:
-            logger.info(f'Status is {status}.')
+            logger.debug(f'Status is {status}.')
             self._status = status
 
         return self._status
@@ -474,7 +474,7 @@ class GitFlow:
         logger = self.logger()
 
         if version_tag_prefix is not None:
-            logger.info(f'Version tag prefix is "{version_tag_prefix}".')
+            logger.debug(f'Version tag prefix is "{version_tag_prefix}".')
             self._version_tag_prefix = version_tag_prefix
 
         return self._version_tag_prefix
