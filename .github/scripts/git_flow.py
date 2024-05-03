@@ -182,20 +182,21 @@ class GitFlow:
             True if all is OK, false otherwise.
         """
         logger = self.logger()
-        valid_base_branches = ['develop']
+        valid_base_branches = [self.develop_branch_name()]
 
         if self.active_branch().startswith(self.hotfix_branch_prefix()):
-            valid_base_branches = ['main']
+            valid_base_branches = [self.main_branch_name()]
 
             if pull_request.base_branch.startswith(self.support_branch_prefix()):
                 valid_base_branches.append(pull_request.base_branch)
         elif self.active_branch().startswith(self.release_branch_prefix()):
-            valid_base_branches = ['main']
+            valid_base_branches = [self.main_branch_name()]
 
         logger.debug(f'Valid base branches are "{", ".join(valid_base_branches)}".')
 
         if pull_request.base_branch not in valid_base_branches:
-            logger.error(f'Base branch "{self.active_branch()}" is not suitable for "{pull_request.head_branch}".')
+            logger.error(f'Base branch "{pull_request.base_branch}" is not suitable for "{pull_request.head_branch}".')
+            self.status(False)
 
     def check_branch_name(self) -> bool:
         """
