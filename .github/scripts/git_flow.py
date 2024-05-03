@@ -91,6 +91,10 @@ class GitFlow:
             active_branch_name = pr.head_branch
         elif event_name == 'push':
             active_branch_name = os.getenv('GITHUB_REF', develop_branch)
+
+            if active_branch_name.startswith('refs/tags'):
+                self.active_branch(develop_branch)
+                return
         else:
             logger.debug(f'Nothing implemented for "{event_name}" events.')
             self.active_branch(develop_branch)
