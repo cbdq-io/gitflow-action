@@ -291,10 +291,10 @@ class GitFlow:
         Returns
         -------
         int
-            logging.INFO unless the environment variable ACTIONS_STEP_DEBUG
+            logging.INFO unless the environment variable ACTIONS_RUNNER_DEBUG
             is set to "true", in which case return logging.DEBUG.
         """
-        if os.getenv('ACTIONS_STEP_DEBUG', 'false').lower() == 'true':
+        if os.getenv('ACTIONS_RUNNER_DEBUG', 'false').lower() == 'true':
             return logging.DEBUG
 
         return logging.INFO
