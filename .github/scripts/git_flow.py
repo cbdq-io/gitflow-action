@@ -71,12 +71,19 @@ class GitFlow:
         self.logger(logger)
         self.status(True)
 
-        repo = Repo('.')
-        active_branch_name = repo.active_branch.name
-        self.active_branch(active_branch_name)
-
         event_name = os.getenv('GITHUB_EVENT_NAME', 'push')
         self.event_name(event_name)
+
+        repo = Repo('.')
+
+        if event_name == 'pull_request':
+            pr = PullRequest()
+            active_branch_name = pr.head_branch
+        else:
+            active_branch_name = repo.active_branch.name
+
+        self.active_branch(active_branch_name)
+
 
         self.main_branch_name(main_branch)
         self.develop_branch_name(develop_branch)
