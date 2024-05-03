@@ -562,13 +562,6 @@ class GitFlow:
 
         if release_candidate is not None:
             logger.debug(f'Release candidate is "{release_candidate}".')
-            display_tag = self.version_tag_prefix() + release_candidate
-
-            if self.is_tag_present(display_tag):
-                logger.debug(f'The tag "{display_tag}" already exists.')
-            else:
-                logger.debug(f'The tag "{display_tag}" is yet to be created.')
-
             self._release_candidate = release_candidate
 
         return self._release_candidate
