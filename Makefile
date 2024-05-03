@@ -5,4 +5,4 @@ lint:
 	flake8
 
 requirements:
-	pip install -r requirements-dev.txt
+	pip install -r .github/requirements/requirements.txt -r requirements-dev.txt
