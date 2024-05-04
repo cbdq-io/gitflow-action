@@ -26,14 +26,16 @@ file called `VERSION`.
 name: Git Flow
 
 on:
-  # Run on any pull request, or any push of a brach (avoiding pushing of
+  # Run on any pull request, or any push of a branch (avoiding pushing of
   # tags).
   pull_request:
     branches:
       - '*'
+      - '**'
   push:
     branches:
       - '*'
+      - '**'
     tags:
       - '!*'  # This excludes all tags
 
@@ -56,7 +58,7 @@ jobs:
           # workflows and ticking "Enable debug logging".
           ACTIONS_RUNNER_DEBUG: ${{ runner.debug }}
 
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           # Set the release candidate to be the output of the previous step.
           release-candidate: ${{ steps.version.outputs.RELEASE_CANDIDATE_TAG }}

@@ -2,14 +2,16 @@
 name: Git Flow Enforcement
 
 on:
-  # Run on any pull request, or any push of a brach (avoiding pushing of
+  # Run on any pull request, or any push of a branch (avoiding pushing of
   # tags).
   pull_request:
     branches:
       - '*'
+      - '**'
   push:
     branches:
       - '*'
+      - '**'
     tags:
       - '!*'  # This excludes all tags
 
