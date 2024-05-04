@@ -46,4 +46,4 @@ jobs:
 
           # Provide a GitHub token to be able to interface with the
           # GitHub API.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
