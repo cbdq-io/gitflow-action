@@ -1,0 +1,64 @@
+---
+name: Git Flow
+
+description: A GitHub Action that enforces and assists with GitFlow.
+
+inputs:
+  main-branch-name:
+    description: 'The name of the main branch'
+    required: false
+    default: 'main'
+
+  develop-branch-name:
+    description: The name of the develop branch.
+    required: false
+    default: develop
+
+  feature-prefix:
+    description: 'Prefix for feature branches'
+    required: false
+    default: 'feature/'
+
+  bugfix-prefix:
+    description: 'Prefix for bugfix branches'
+    required: false
+    default: 'bugfix/'
+
+  release-prefix:
+    description: 'Prefix for release branches'
+    required: false
+    default: 'release/'
+
+  hotfix-prefix:
+    description: 'Prefix for hotfix branches'
+    required: false
+    default: 'hotfix/'
+
+  support-prefix:
+    description: 'Prefix for support branches'
+    required: false
+    default: 'support/'
+
+  version-tag-prefix:
+    description: Prefix to be applied to tags when they are created.
+    required: false
+    default: ""
+
+  release-candidate:
+    description: The name of the next release.
+    required: false
+    default: ""
+
+runs:
+  using: 'docker'
+  image: Dockerfile
+  args:
+    - ${{ inputs.main-branch-name }}
+    - ${{ inputs.develop-branch-name }}
+    - ${{ inputs.feature-prefix }}
+    - ${{ inputs.bugfix-prefix }}
+    - ${{ inputs.release-prefix }}
+    - ${{ inputs.hotfix-prefix }}
+    - ${{ inputs.support-prefix }}
+    - ${{ inputs.version-tag-prefix }}
+    - ${{ inputs.release-candidate }}
