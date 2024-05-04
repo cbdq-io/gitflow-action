@@ -1,0 +1,9 @@
+---
+# Based on ansible-lint config
+extends: default
+
+rules:
+  hyphens:
+    level: error
+  line-length: disable
+  truthy: disable
