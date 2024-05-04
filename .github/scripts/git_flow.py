@@ -8,7 +8,7 @@ from fastcore.net import HTTP403ForbiddenError
 from ghapi.all import GhApi
 
 
-__version__ = '0.1.0'
+__version__ = '1.0.1'
 api = GhApi()
 
 
