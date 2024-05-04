@@ -1,7 +1,7 @@
 ---
-name: 'Git Flow Enforcement'
+name: Git Flow
 
-description: 'An action for GitHub Actions that enforces and assists with GitFlow.'
+description: A GitHub Action that enforces and assists with GitFlow.
 
 inputs:
   main-branch-name:

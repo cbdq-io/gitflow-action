@@ -2,8 +2,16 @@
 name: Git Flow Enforcement
 
 on:
-  - pull_request
-  - push
+  # Run on any pull request, or any push of a brach (avoiding pushing of
+  # tags).
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - '*'
+    tags:
+      - '!*'  # This excludes all tags
 
 jobs:
   enforce-git-flow:
@@ -27,13 +35,13 @@ jobs:
         env:
           PYTHONPATH: .github/scripts
 
-      # - name: Git Flow Action
-      #   run: python .github/scripts/git_flow.py main develop feature/ bugfix/ release/ hotfix/ support/ 'v' ${{ steps.version.outputs.RELEASE_CANDIDATE_TAG }}
-      #   env:
-      #     # Setting this environment variable means we can debug by re-running
-      #     # workflows and ticking "Enable debug logging".
-      #     ACTIONS_RUNNER_DEBUG: ${{ runner.debug }}
+      - name: Git Flow Action
+        run: python .github/scripts/git_flow.py main develop feature/ bugfix/ release/ hotfix/ support/ 'v' ${{ steps.version.outputs.RELEASE_CANDIDATE_TAG }}
+        env:
+          # Setting this environment variable means we can debug by re-running
+          # workflows and ticking "Enable debug logging".
+          ACTIONS_RUNNER_DEBUG: ${{ runner.debug }}
 
-      #     # Provide a GitHub token to be able to interface with the
-      #     # GitHub API.
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Provide a GitHub token to be able to interface with the
+          # GitHub API.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
