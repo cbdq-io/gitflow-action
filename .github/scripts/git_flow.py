@@ -329,7 +329,7 @@ class GitFlow:
         )
 
         if len(existing_prs) >= 1:
-            logger.debug(f'A pull request already exists to merge {head_branch} into {base_branch}.')
+            logger.info(f'A pull request already exists to merge {head_branch} into {base_branch}.')
             return
 
         logger.info(f'Creating a PR to merge {head_branch} in {base_branch}.')
