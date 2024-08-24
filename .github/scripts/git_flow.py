@@ -3,10 +3,10 @@ import json
 import logging
 import os
 import sys
+
 from fastcore.net import HTTP403ForbiddenError
-
 from ghapi.all import GhApi
-
+from nltk import word_tokenize
 
 __version__ = '1.0.1'
 api = GhApi()
@@ -337,13 +337,15 @@ class GitFlow:
         Changes made during release {self.release_candidate()} that are to
         be merged back to {self.develop_branch_name()}.
         """
+        body = word_tokenize(body)
+        body = ' '.join(body)
         api.pulls.create(
             self.owner,
             self.repo,
             title=f'Post Release {self.release_candidate()}',
             head=head_branch,
             base=base_branch,
-            body=' '.join(body.split('\n'))
+            body=body
         )
 
     def create_tag(self, tag_name: str) -> None:

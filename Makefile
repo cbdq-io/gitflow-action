@@ -5,6 +5,7 @@ build:
 
 lint:
 	yamllint -s .
+	isort -v .
 	flake8
 	docker run --rm -i hadolint/hadolint < Dockerfile
 
