@@ -6,7 +6,7 @@ import sys
 
 from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
-from nltk import word_tokenize
+import nltk
 
 __version__ = '1.0.1'
 api = GhApi()
@@ -337,7 +337,8 @@ class GitFlow:
         Changes made during release {self.release_candidate()} that are to
         be merged back to {self.develop_branch_name()}.
         """
-        body = word_tokenize(body)
+        nltk.download('punkt_tab')
+        body = nltk.word_tokenize(body)
         body = ' '.join(body)
         api.pulls.create(
             self.owner,
