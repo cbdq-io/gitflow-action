@@ -3,12 +3,12 @@ import json
 import logging
 import os
 import sys
-from fastcore.net import HTTP403ForbiddenError
 
+from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
+import nltk
 
-
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 api = GhApi()
 
 
@@ -329,7 +329,7 @@ class GitFlow:
         )
 
         if len(existing_prs) >= 1:
-            logger.debug(f'A pull request already exists to merge {head_branch} into {base_branch}.')
+            logger.info(f'A pull request already exists to merge {head_branch} into {base_branch}.')
             return
 
         logger.info(f'Creating a PR to merge {head_branch} in {base_branch}.')
@@ -337,13 +337,16 @@ class GitFlow:
         Changes made during release {self.release_candidate()} that are to
         be merged back to {self.develop_branch_name()}.
         """
+        nltk.download('punkt_tab')
+        body = nltk.word_tokenize(body)
+        body = ' '.join(body)
         api.pulls.create(
             self.owner,
             self.repo,
             title=f'Post Release {self.release_candidate()}',
             head=head_branch,
             base=base_branch,
-            body=' '.join(body.split('\n'))
+            body=body
         )
 
     def create_tag(self, tag_name: str) -> None:
@@ -718,6 +721,8 @@ if __name__ == '__main__':
             gitflow.logger().info('All is OK.')
             sys.exit(0)
     except HTTP403ForbiddenError as ex:
+        gitflow.logger().error(ex)
+    except HTTP401UnauthorizedError as ex:
         gitflow.logger().error(ex)
 
     sys.exit(1)
