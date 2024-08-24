@@ -1,6 +1,7 @@
 flake8==7.0.0
 flake8-docstrings==1.7.0
 flake8-quotes==3.4.0
+isort==5.13.2
 mccabe==0.7.0
 pathspec==0.12.1
 pycodestyle==2.11.1
