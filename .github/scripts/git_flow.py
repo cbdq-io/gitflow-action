@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 
-from fastcore.net import HTTP403ForbiddenError
+from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
 from nltk import word_tokenize
 
@@ -720,6 +720,8 @@ if __name__ == '__main__':
             gitflow.logger().info('All is OK.')
             sys.exit(0)
     except HTTP403ForbiddenError as ex:
+        gitflow.logger().error(ex)
+    except HTTP401UnauthorizedError as ex:
         gitflow.logger().error(ex)
 
     sys.exit(1)
