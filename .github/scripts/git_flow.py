@@ -4,9 +4,9 @@ import logging
 import os
 import sys
 
+import nltk
 from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
-import nltk
 
 __version__ = '1.0.2'
 api = GhApi()
@@ -320,17 +320,16 @@ class GitFlow:
             The name of the head branch (e.g. bugfix/post-v0.1.0).
         """
         logger = self.logger()
-        existing_prs = api.pulls.list(
-            self.owner,
-            self.repo,
-            state='open',
-            base=base_branch,
-            head=head_branch
-        )
+        all_open_prs = api.pulls.list(self.owner, self.repo, state='open')
 
-        if len(existing_prs) >= 1:
-            logger.info(f'A pull request already exists to merge {head_branch} into {base_branch}.')
-            return
+        for pr in all_open_prs:
+            if (
+                pr.base.ref == base_branch and
+                pr.head.ref == head_branch and
+                pr.head.repo.full_name == self.github_repo()
+            ):
+                logger.info(f'A pull request already exists to merge {head_branch} into {base_branch}.')
+                return
 
         logger.info(f'Creating a PR to merge {head_branch} in {base_branch}.')
         body = f"""
