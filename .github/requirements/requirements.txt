@@ -10,4 +10,4 @@ regex==2024.11.6
 setuptools==78.1.1
 smmap==5.0.1
 tqdm==4.67.1
-wheel==0.43.0
+wheel==0.46.2
