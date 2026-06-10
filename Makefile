@@ -4,7 +4,7 @@ build:
 	docker buildx build --load -t gitflow:latest .
 
 changelog:
-	docker run --quiet --rm --volume "${PWD}:/mnt/source" --workdir /mnt/source ghcr.io/cbdq-io/gitchangelog > CHANGELOG.md
+	docker run --platform linux/amd64 --quiet --rm --volume "${PWD}:/mnt/source" --workdir /mnt/source ghcr.io/cbdq-io/gitchangelog > CHANGELOG.md
 
 lint:
 	yamllint -s .
