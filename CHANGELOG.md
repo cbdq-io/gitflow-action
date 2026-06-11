@@ -5,6 +5,13 @@
 
 ### Fix
 
+* Rename the action from "Git Flow" to "CBDQ.IO Git Flow" [Ben Dalling]
+
+
+## 1.0.4 (2026-06-11)
+
+### Fix
+
 * Remove CVE-2026-42215 vulnerability. [Ben Dalling]
 
 * Remove CVE-2025-14009 vulnerability. [Ben Dalling]

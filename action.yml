@@ -1,5 +1,5 @@
 ---
-name: Git Flow
+name: CBDQ.IO Git Flow
 
 description: A GitHub Action that enforces and assists with GitFlow.
 
