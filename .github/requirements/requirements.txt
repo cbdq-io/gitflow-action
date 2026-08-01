@@ -7,7 +7,7 @@ joblib==1.5.1
 nltk==3.9.4
 packaging==24.0
 regex==2024.11.6
-setuptools==78.1.1
+setuptools==83.0.0
 smmap==5.0.1
 tqdm==4.67.1
 wheel==0.46.2
