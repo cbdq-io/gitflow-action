@@ -3,6 +3,99 @@
 
 ## Unreleased
 
+### Fix
+
+* Added exception to skip if triggered by dependabot. [James Loughlin]
+
+### Build
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.57 to 3.1.58.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.57...3.1.58)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.58
+    dependency-type: direct:production
+  ...
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.54 to 3.1.57.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.54...3.1.57)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.57
+    dependency-type: direct:production
+  ...
+
+* Bump nltk from 3.9.4 to 3.10.0 in /.github/requirements. [dependabot[bot]]
+
+  Bumps [nltk](https://github.com/nltk/nltk) from 3.9.4 to 3.10.0.
+  - [Release notes](https://github.com/nltk/nltk/releases)
+  - [Changelog](https://github.com/nltk/nltk/blob/develop/ChangeLog)
+  - [Commits](https://github.com/nltk/nltk/compare/3.9.4...v3.10.0)
+
+  ---
+  updated-dependencies:
+  - dependency-name: nltk
+    dependency-version: 3.10.0
+    dependency-type: direct:production
+  ...
+
+* Bump setuptools in /.github/requirements. [dependabot[bot]]
+
+  Bumps [setuptools](https://github.com/pypa/setuptools) from 78.1.1 to 83.0.0.
+  - [Release notes](https://github.com/pypa/setuptools/releases)
+  - [Changelog](https://github.com/pypa/setuptools/blob/main/NEWS.rst)
+  - [Commits](https://github.com/pypa/setuptools/compare/v78.1.1...v83.0.0)
+
+  ---
+  updated-dependencies:
+  - dependency-name: setuptools
+    dependency-version: 83.0.0
+    dependency-type: direct:production
+  ...
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.50 to 3.1.54.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.50...3.1.54)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.54
+    dependency-type: direct:production
+  ...
+
+* Bump actions/setup-python from 6 to 7. [dependabot[bot]]
+
+  Bumps [actions/setup-python](https://github.com/actions/setup-python) from 6 to 7.
+  - [Release notes](https://github.com/actions/setup-python/releases)
+  - [Commits](https://github.com/actions/setup-python/compare/v6...v7)
+
+  ---
+  updated-dependencies:
+  - dependency-name: actions/setup-python
+    dependency-version: '7'
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+
+
+## 1.0.6 (2026-06-28)
+
 ### Build
 
 * Bump actions/checkout from 6 to 7. [dependabot[bot]]
