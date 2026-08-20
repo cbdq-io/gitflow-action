@@ -7,7 +7,7 @@ on:
       - "*"
       - "**"
     tags:
-      - "!*" # This excludes all tags
+      - "!*"  # This excludes all tags
 
 permissions:
   contents: write
