@@ -5,6 +5,13 @@
 
 ### Fix
 
+* Auto-update the change log. [Ben Dalling]
+
+
+## 1.0.7 (2026-08-10)
+
+### Fix
+
 * Added exception to skip if triggered by dependabot. [James Loughlin]
 
 ### Build
