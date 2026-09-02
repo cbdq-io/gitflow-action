@@ -8,7 +8,7 @@ import nltk
 from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
 
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 api = GhApi()
 
 
