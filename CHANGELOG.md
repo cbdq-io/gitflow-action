@@ -1,6 +1,39 @@
 # Changelog
 
 
+## Unreleased
+
+### Build
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.59 to 3.1.62.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.59...3.1.62)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.62
+    dependency-type: direct:production
+  ...
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.58 to 3.1.59.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.58...3.1.59)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.59
+    dependency-type: direct:production
+  ...
+
+
 ## 1.0.8 (2026-09-02)
 
 ### Fix
