@@ -5,6 +5,8 @@
 
 ### Fix
 
+* Update Python requirements. [Ben Dalling]
+
 * Enable dependabot for pip. [Ben Dalling]
 
 ### Build
