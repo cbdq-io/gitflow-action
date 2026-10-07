@@ -12,5 +12,5 @@ pyflakes==3.2.0
 PyYAML==6.0.1
 radon==6.0.1
 six==1.16.0
-snowballstemmer==2.2.0
+snowballstemmer==3.1.1
 yamllint==1.35.1
