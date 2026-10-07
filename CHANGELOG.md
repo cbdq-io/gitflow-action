@@ -11,6 +11,21 @@
 
 ### Build
 
+* Bump yamllint from 1.35.1 to 1.38.0. [dependabot[bot]]
+
+  Bumps [yamllint](https://github.com/adrienverge/yamllint) from 1.35.1 to 1.38.0.
+  - [Release notes](https://github.com/adrienverge/yamllint/releases)
+  - [Changelog](https://github.com/adrienverge/yamllint/blob/master/CHANGELOG.rst)
+  - [Commits](https://github.com/adrienverge/yamllint/compare/v1.35.1...v1.38.0)
+
+  ---
+  updated-dependencies:
+  - dependency-name: yamllint
+    dependency-version: 1.38.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+  ...
+
 * Bump gitpython in /.github/requirements. [dependabot[bot]]
 
   Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.59 to 3.1.62.
