@@ -3,6 +3,10 @@
 
 ## Unreleased
 
+### Fix
+
+* Enable dependabot for pip. [Ben Dalling]
+
 ### Build
 
 * Bump gitpython in /.github/requirements. [dependabot[bot]]
