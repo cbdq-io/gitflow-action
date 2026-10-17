@@ -8,7 +8,7 @@ mccabe==0.7.0
 pathspec==1.1.1
 pycodestyle==2.15.0
 pydocstyle==6.3.0
-pyflakes==4.0.2
+pyflakes==4.0.3
 PyYAML==6.0.3
 radon==6.0.1
 six==1.17.0
