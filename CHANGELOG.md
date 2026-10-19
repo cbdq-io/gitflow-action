@@ -11,6 +11,20 @@
 
 ### Build
 
+* Bump pyflakes from 4.0.2 to 4.0.3. [dependabot[bot]]
+
+  Bumps [pyflakes](https://github.com/PyCQA/pyflakes) from 4.0.2 to 4.0.3.
+  - [Changelog](https://github.com/PyCQA/pyflakes/blob/main/NEWS.rst)
+  - [Commits](https://github.com/PyCQA/pyflakes/compare/4.0.2...4.0.3)
+
+  ---
+  updated-dependencies:
+  - dependency-name: pyflakes
+    dependency-version: 4.0.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+  ...
+
 * Bump gitpython in /.github/requirements. [dependabot[bot]]
 
   Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.59 to 3.1.62.
