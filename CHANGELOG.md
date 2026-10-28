@@ -11,6 +11,20 @@
 
 ### Build
 
+* Bump gitpython from 3.2.0 to 3.2.1 in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.2.0 to 3.2.1.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/doc/source/changes.rst)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.2.0...3.2.1)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.2.1
+    dependency-type: direct:production
+  ...
+
 * Bump pyflakes from 4.0.2 to 4.0.3. [dependabot[bot]]
 
   Bumps [pyflakes](https://github.com/PyCQA/pyflakes) from 4.0.2 to 4.0.3.
