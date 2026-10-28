@@ -11,6 +11,20 @@
 
 ### Build
 
+* Bump nltk from 3.10.3 to 3.10.4 in /.github/requirements. [dependabot[bot]]
+
+  Bumps [nltk](https://github.com/nltk/nltk) from 3.10.3 to 3.10.4.
+  - [Release notes](https://github.com/nltk/nltk/releases)
+  - [Changelog](https://github.com/nltk/nltk/blob/develop/ChangeLog)
+  - [Commits](https://github.com/nltk/nltk/compare/v3.10.3...v3.10.4)
+
+  ---
+  updated-dependencies:
+  - dependency-name: nltk
+    dependency-version: 3.10.4
+    dependency-type: direct:production
+  ...
+
 * Bump gitpython from 3.2.0 to 3.2.1 in /.github/requirements. [dependabot[bot]]
 
   Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.2.0 to 3.2.1.
