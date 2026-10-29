@@ -11,6 +11,20 @@
 
 ### Build
 
+* Bump setuptools in /.github/requirements. [dependabot[bot]]
+
+  Bumps [setuptools](https://github.com/pypa/setuptools) from 84.0.0 to 84.1.0.
+  - [Release notes](https://github.com/pypa/setuptools/releases)
+  - [Changelog](https://github.com/pypa/setuptools/blob/main/NEWS.rst)
+  - [Commits](https://github.com/pypa/setuptools/compare/v84.0.0...v84.1.0)
+
+  ---
+  updated-dependencies:
+  - dependency-name: setuptools
+    dependency-version: 84.1.0
+    dependency-type: direct:production
+  ...
+
 * Bump nltk from 3.10.3 to 3.10.4 in /.github/requirements. [dependabot[bot]]
 
   Bumps [nltk](https://github.com/nltk/nltk) from 3.10.3 to 3.10.4.
