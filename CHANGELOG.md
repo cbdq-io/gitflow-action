@@ -5,6 +5,8 @@
 
 ### Fix
 
+* Migrate from flake8/radon to ruff. [Ben Dalling]
+
 * Update Python requirements. [Ben Dalling]
 
 * Enable dependabot for pip. [Ben Dalling]

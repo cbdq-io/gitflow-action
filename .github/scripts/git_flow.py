@@ -1,4 +1,5 @@
 """A GitHub Action that enforces and assists with GitFlow."""
+
 import json
 import logging
 import os
@@ -54,20 +55,23 @@ class GitFlow:
         branches respectively.
     """
 
-    def __init__(self, main_branch: str, develop_branch: str, version_tag_prefix: str, release_candidate: str,
-                 *prefixes: tuple) -> None:
+    def __init__(
+        self,
+        main_branch: str,
+        develop_branch: str,
+        version_tag_prefix: str,
+        release_candidate: str,
+        *prefixes: tuple,
+    ) -> None:
         """Create a GitFlow object."""
-        self._branch = {
-            'main': None,
-            'develop': None
-        }
+        self._branch = {'main': None, 'develop': None}
 
         self._prefix = {
             'feature': None,
             'bugfix': None,
             'release': None,
             'hotfix': None,
-            'support': None
+            'support': None,
         }
 
         self._status = None
@@ -86,7 +90,7 @@ class GitFlow:
             bugfix_prefix,
             release_prefix,
             hotfix_prefix,
-            support_prefix
+            support_prefix,
         ) = prefixes
         self.feature_branch_prefix(feature_prefix)
         self.bugfix_branch_prefix(bugfix_prefix)
@@ -123,7 +127,7 @@ class GitFlow:
 
         self.active_branch(active_branch_name)
 
-    def active_branch(self, active_branch: str = None) -> str:
+    def active_branch(self, active_branch: str | None = None) -> str:
         """
         Get or set the active branch name.
 
@@ -145,7 +149,7 @@ class GitFlow:
 
         return self._active_branch
 
-    def branch_prefix(self, branch_type: str, prefix: str = None) -> str:
+    def branch_prefix(self, branch_type: str, prefix: str | None = None) -> str:
         """
         Get or set the prefix for the specified branch type.
 
@@ -163,7 +167,7 @@ class GitFlow:
         """
         logger = self.logger()
 
-        if branch_type not in self._prefix.keys():
+        if branch_type not in self._prefix:
             logger.error(f'Unknown branch type "{branch_type}".')
             sys.exit(1)
 
@@ -173,7 +177,7 @@ class GitFlow:
 
         return self._prefix[branch_type]
 
-    def bugfix_branch_prefix(self, bugfix_branch_prefix: str = None) -> str:
+    def bugfix_branch_prefix(self, bugfix_branch_prefix: str | None = None) -> str:
         """
         Get or set the bugfix branch prefix.
 
@@ -241,7 +245,7 @@ class GitFlow:
             self._prefix['bugfix'],
             self._prefix['release'],
             self._prefix['hotfix'],
-            self._prefix['support']
+            self._prefix['support'],
         ]
         return any(branch_name.startswith(prefix) for prefix in prefixes if prefix)
 
@@ -300,12 +304,7 @@ class GitFlow:
             sys.exit(1)
 
         logger.debug(f'Creating a branch from {self.main_branch_name()} ({source_sha}).')
-        api.git.create_ref(
-            self.owner,
-            self.repo,
-            ref=f'refs/heads/{branch_name}',
-            sha=source_sha
-        )
+        api.git.create_ref(self.owner, self.repo, ref=f'refs/heads/{branch_name}', sha=source_sha)
         logger.info(f'Successfully created branch "{branch_name}".')
 
     def create_pull_request(self, base_branch: str, head_branch: str) -> None:
@@ -324,9 +323,9 @@ class GitFlow:
 
         for pr in all_open_prs:
             if (
-                pr.base.ref == base_branch and
-                pr.head.ref == head_branch and
-                pr.head.repo.full_name == self.github_repo()
+                pr.base.ref == base_branch
+                and pr.head.ref == head_branch
+                and pr.head.repo.full_name == self.github_repo()
             ):
                 logger.info(f'A pull request already exists to merge {head_branch} into {base_branch}.')
                 return
@@ -345,7 +344,7 @@ class GitFlow:
             title=f'Post Release {self.release_candidate()}',
             head=head_branch,
             base=base_branch,
-            body=body
+            body=body,
         )
 
     def create_tag(self, tag_name: str) -> None:
@@ -369,16 +368,11 @@ class GitFlow:
                 tag=tag_name,
                 object=os.getenv('GITHUB_SHA'),
                 type='commit',
-                message=tag_name
+                message=tag_name,
             )
-            api.git.create_ref(
-                self.owner,
-                self.repo,
-                ref=f'refs/tags/{tag_name}',
-                sha=tag_response.sha
-            )
+            api.git.create_ref(self.owner, self.repo, ref=f'refs/tags/{tag_name}', sha=tag_response.sha)
 
-    def develop_branch_name(self, develop_branch_name: str = None) -> str:
+    def develop_branch_name(self, develop_branch_name: str | None = None) -> str:
         """
         Get or set the develop branch name.
 
@@ -400,7 +394,7 @@ class GitFlow:
 
         return self._branch['develop']
 
-    def event_name(self, event_name: str = None) -> str:
+    def event_name(self, event_name: str | None = None) -> str:
         """
         Get or set the event name.
 
@@ -424,7 +418,7 @@ class GitFlow:
 
         return self._event_name
 
-    def feature_branch_prefix(self, feature_branch_prefix: str = None) -> str:
+    def feature_branch_prefix(self, feature_branch_prefix: str | None = None) -> str:
         """
         Get or set the feature branch prefix.
 
@@ -458,7 +452,7 @@ class GitFlow:
 
         return logging.INFO
 
-    def github_repo(self, github_repo: str = None) -> str:
+    def github_repo(self, github_repo: str | None = None) -> str:
         """
         Get or set the GitHub repo name.
 
@@ -480,7 +474,7 @@ class GitFlow:
 
         return self._github_repo
 
-    def hotfix_branch_prefix(self, hotfix_branch_prefix: str = None) -> str:
+    def hotfix_branch_prefix(self, hotfix_branch_prefix: str | None = None) -> str:
         """
         Get or set the hotfix branch prefix.
 
@@ -523,10 +517,7 @@ class GitFlow:
 
     def is_push_to_main(self) -> bool:
         """Return True if the GitHub action is due to a push to the main branch."""
-        if self.event_name() == 'push' and self.active_branch() == self.main_branch_name():
-            return True
-
-        return False
+        return bool(self.event_name() == 'push' and self.active_branch() == self.main_branch_name())
 
     def is_tag_present(self, tag_name: str) -> bool:
         """
@@ -550,7 +541,7 @@ class GitFlow:
 
         return False
 
-    def logger(self, logger: logging.Logger = None) -> logging.Logger:
+    def logger(self, logger: logging.Logger | None = None) -> logging.Logger:
         """
         Get or set the logger for the Git Flow class.
 
@@ -569,7 +560,7 @@ class GitFlow:
 
         return self._logger
 
-    def main_branch_name(self, main_branch_name: str = None) -> str:
+    def main_branch_name(self, main_branch_name: str | None = None) -> str:
         """
         Get or set the main branch name.
 
@@ -605,7 +596,7 @@ class GitFlow:
         self.create_branch(branch_name)
         self.create_pull_request(self.develop_branch_name(), branch_name)
 
-    def release_branch_prefix(self, release_branch_prefix: str = None) -> str:
+    def release_branch_prefix(self, release_branch_prefix: str | None = None) -> str:
         """
         Get or set the release branch prefix.
 
@@ -621,7 +612,7 @@ class GitFlow:
         """
         return self.branch_prefix('release', release_branch_prefix)
 
-    def release_candidate(self, release_candidate: str = None) -> str:
+    def release_candidate(self, release_candidate: str | None = None) -> str:
         """
         Get or set the release candidate.
 
@@ -643,7 +634,7 @@ class GitFlow:
 
         return self._release_candidate
 
-    def status(self, status: bool = None) -> bool:
+    def status(self, status: bool | None = None) -> bool:
         """
         Get or set the status.
 
@@ -667,7 +658,7 @@ class GitFlow:
 
         return self._status
 
-    def support_branch_prefix(self, support_branch_prefix: str = None) -> str:
+    def support_branch_prefix(self, support_branch_prefix: str | None = None) -> str:
         """
         Get or set the support branch prefix.
 
@@ -683,7 +674,7 @@ class GitFlow:
         """
         return self.branch_prefix('support', support_branch_prefix)
 
-    def version_tag_prefix(self, version_tag_prefix: str = None) -> str:
+    def version_tag_prefix(self, version_tag_prefix: str | None = None) -> str:
         """
         Get or set the version tag prefix.
 
