@@ -1,0 +1,41 @@
+[tool.coverage.run]
+source = [".github"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "--cov --doctest-modules --import-mode=importlib --durations 3 --verbose"
+python_files = ["test_*.py", "*_test.py"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+src = ["dags", "utils"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+select = [
+  "AIR3",     # Apache Airflow
+  "E", "F",   # pycodestyle / pyflakes
+  "D",        # pydocstyle / flake8-docstrings
+  "Q",        # flake8-quotes
+  "I",        # isort
+  "C90",      # mccabe complexity
+  "S",        # flake8-bandit
+]
+per-file-ignores = { "tests/*" = ["D100", "D101", "D102", "D103", "D104", "D401", "D403", "S101"] }
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "double"
+docstring-quotes = "double"
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10

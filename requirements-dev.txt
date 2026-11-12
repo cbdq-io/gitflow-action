@@ -1,3 +1,5 @@
 bandit
+pytest-bdd
+pytest-cov
 ruff
 yamllint
