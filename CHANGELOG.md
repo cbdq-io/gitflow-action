@@ -5,6 +5,105 @@
 
 ### Fix
 
+* Add unit tests. [Ben Dalling]
+
+* Migrate from flake8/radon to ruff. [Ben Dalling]
+
+* Update Python requirements. [Ben Dalling]
+
+* Enable dependabot for pip. [Ben Dalling]
+
+### Build
+
+* Bump setuptools in /.github/requirements. [dependabot[bot]]
+
+  Bumps [setuptools](https://github.com/pypa/setuptools) from 84.0.0 to 84.1.0.
+  - [Release notes](https://github.com/pypa/setuptools/releases)
+  - [Changelog](https://github.com/pypa/setuptools/blob/main/NEWS.rst)
+  - [Commits](https://github.com/pypa/setuptools/compare/v84.0.0...v84.1.0)
+
+  ---
+  updated-dependencies:
+  - dependency-name: setuptools
+    dependency-version: 84.1.0
+    dependency-type: direct:production
+  ...
+
+* Bump nltk from 3.10.3 to 3.10.4 in /.github/requirements. [dependabot[bot]]
+
+  Bumps [nltk](https://github.com/nltk/nltk) from 3.10.3 to 3.10.4.
+  - [Release notes](https://github.com/nltk/nltk/releases)
+  - [Changelog](https://github.com/nltk/nltk/blob/develop/ChangeLog)
+  - [Commits](https://github.com/nltk/nltk/compare/v3.10.3...v3.10.4)
+
+  ---
+  updated-dependencies:
+  - dependency-name: nltk
+    dependency-version: 3.10.4
+    dependency-type: direct:production
+  ...
+
+* Bump gitpython from 3.2.0 to 3.2.1 in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.2.0 to 3.2.1.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/doc/source/changes.rst)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.2.0...3.2.1)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.2.1
+    dependency-type: direct:production
+  ...
+
+* Bump pyflakes from 4.0.2 to 4.0.3. [dependabot[bot]]
+
+  Bumps [pyflakes](https://github.com/PyCQA/pyflakes) from 4.0.2 to 4.0.3.
+  - [Changelog](https://github.com/PyCQA/pyflakes/blob/main/NEWS.rst)
+  - [Commits](https://github.com/PyCQA/pyflakes/compare/4.0.2...4.0.3)
+
+  ---
+  updated-dependencies:
+  - dependency-name: pyflakes
+    dependency-version: 4.0.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+  ...
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.59 to 3.1.62.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.59...3.1.62)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.62
+    dependency-type: direct:production
+  ...
+
+* Bump gitpython in /.github/requirements. [dependabot[bot]]
+
+  Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.58 to 3.1.59.
+  - [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+  - [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+  - [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.58...3.1.59)
+
+  ---
+  updated-dependencies:
+  - dependency-name: gitpython
+    dependency-version: 3.1.59
+    dependency-type: direct:production
+  ...
+
+
+## 1.0.8 (2026-09-02)
+
+### Fix
+
 * Auto-update the change log. [Ben Dalling]
 
 ### Build

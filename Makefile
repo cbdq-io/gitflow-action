@@ -8,17 +8,13 @@ changelog:
 
 lint:
 	yamllint -s .
-	isort -v .
-	flake8
+	ruff format
+	ruff check --fix .
+	bandit -qr .
 	docker run --rm -i hadolint/hadolint < Dockerfile
 
 requirements:
 	pip install -r .github/requirements/requirements.txt -r requirements-dev.txt
 
 test:
-	docker run --rm -e ACTIONS_RUNNER_DEBUG=true -v '.:/mnt/src' -w /mnt/src gitflow:latest main develop feature/ bugfix/ release/ hotfix/ support/ 'v' 0.1.0
-
-update-requirements:
-	pip freeze > /tmp/requirements-all.txt
-	docker run --entrypoint pip --rm gitflow:latest freeze > .github/requirements/requirements.txt
-	comm -23 /tmp/requirements-all.txt .github/requirements/requirements.txt > requirements-dev.txt
+	pytest -v
