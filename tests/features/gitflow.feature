@@ -69,3 +69,4 @@ Feature: GitFlow Class
         | v                  | 0.1.0             | pull_request      | fix/foo            | develop         | False            |
         | v                  | 0.1.0             | pull_request      | release/0.1.0      | develop         | False            |
         | v                  | 0.1.0             | pull_request      | release/0.1.1      | main            | False            |
+        | v                  | 0.1.0             | pull_request      | hotfix/0.1.1       | develop         | False            |
