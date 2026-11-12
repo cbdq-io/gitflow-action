@@ -5,6 +5,8 @@
 
 ### Fix
 
+* Add unit tests. [Ben Dalling]
+
 * Migrate from flake8/radon to ruff. [Ben Dalling]
 
 * Update Python requirements. [Ben Dalling]

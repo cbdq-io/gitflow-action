@@ -20,10 +20,10 @@ class PullRequest:
     Attributes
     ----------
     base_branch : str
-        The base branch that is being merged into.
+        The base branch that is being merged into (e.g. "develop").
 
     head_branch : str
-        The branch being merged from in the pull request.
+        The branch being merged from in the pull request (e.g. "bugfix/foo").
     """
 
     def __init__(self) -> None:
