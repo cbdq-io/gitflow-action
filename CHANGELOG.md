@@ -1,6 +1,13 @@
 # Changelog
 
 
+## Unreleased
+
+### Features
+
+* Allow a post-release PR to have assignees. [Ben Dalling]
+
+
 ## 1.0.9 (2026-11-12)
 
 ### Fix
