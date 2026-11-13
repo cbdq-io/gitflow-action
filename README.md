@@ -15,6 +15,7 @@ A GitHub Action that enforces and assists with GitFlow.
 | release-prefix | Prefix for release branches | release/ |
 | support-prefix | Prefix for support branches | support/ |
 | version-tag-prefix | A prefix (e.g. "v") to be applied to any tag. | "" |
+| post-release-pr-assignees | Comma-separated GitHub usernames to assign to post-release or hotfix pull requests. | "" |
 
 ## Examples
 

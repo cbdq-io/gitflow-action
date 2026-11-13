@@ -70,3 +70,24 @@ Feature: GitFlow Class
         | v                  | 0.1.0             | pull_request      | release/0.1.0      | develop         | False            |
         | v                  | 0.1.0             | pull_request      | release/0.1.1      | main            | False            |
         | v                  | 0.1.0             | pull_request      | hotfix/0.1.1       | develop         | False            |
+
+  Scenario Outline: Post Release Assignee Handling
+    Given the GitFlow main branch is "main"
+    And the GitFlow develop branch is "develop"
+    And the GitFlow version tag prefix is <version_tag_prefix>
+    And the GitFlow release candidate is <release_candidate>
+    And the GitFlow prefixes are the standard prefixes
+    When the GitHub event name is <github_event_name>
+    And the GitHub head branch is <github_head_branch>
+    And the GitHub repository is "cbdq-io/gitflow-action"
+    And the GitHub ref is <github_ref>
+    And the GitFlow post-release assignee string is <post_release_pr_assignees>
+    Then the assignee count is <assignee_count>
+
+    Examples:
+        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref      | post_release_pr_assignees | assignee_count |
+        | v                  | 0.1.0             | pull_request      | bugfix/foo         | develop         | N/A                       | 0              |
+        | v                  | 0.1.0             | pull_request      | bugfix/foo         | develop         | cbdqbot                   | 1              |
+        | v                  | 0.1.0             | pull_request      | bugfix/foo         | develop         | cbdqbot,dallinb           | 2              |
+        | v                  | 0.1.0             | pull_request      | bugfix/foo         | develop         | cbdqbot,dallinb,          | 2              |
+        | v                  | 0.1.0             | pull_request      | bugfix/foo         | develop         | cbdqbot,,dallinb          | 2              |
