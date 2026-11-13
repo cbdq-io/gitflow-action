@@ -49,6 +49,11 @@ inputs:
     required: false
     default: ""
 
+  post-release-pr-assignees:
+    description: 'Comma-separated GitHub usernames to assign to post-release or hotfix pull requests.'
+    required: false
+    default: ''
+
 runs:
   using: 'docker'
   image: Dockerfile
@@ -62,3 +67,4 @@ runs:
     - ${{ inputs.support-prefix }}
     - ${{ inputs.version-tag-prefix }}
     - ${{ inputs.release-candidate }}
+    - ${{ inputs.post-release-pr-assignees }}

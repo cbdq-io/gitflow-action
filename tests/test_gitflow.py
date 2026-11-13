@@ -19,6 +19,11 @@ def test_invalid_pushes():
     """Invalid Pushes."""
 
 
+@scenario('features/gitflow.feature', 'Post Release Assignee Handling')
+def test_post_release_assignee_handling():
+    """Post Release Assignee Handling."""
+
+
 @scenario('features/gitflow.feature', 'Valid Pull Requests')
 def test_valid_pull_requests():
     """Valid Pull Requests."""
@@ -63,6 +68,18 @@ def _(version_tag_prefix: str):
     return version_tag_prefix
 
 
+@when(
+    parsers.parse('the GitFlow post-release assignee string is {post_release_pr_assignees}'),
+    target_fixture='post_release_pr_assignees',
+)
+def _(post_release_pr_assignees: str):
+    """the GitFlow post-release assignee string is <post_release_pr_assignees>."""
+    if post_release_pr_assignees == 'N/A':
+        post_release_pr_assignees = ''
+
+    return post_release_pr_assignees
+
+
 @when(parsers.parse('the GitHub event name is {github_event_name}'), target_fixture='github_event_name')
 def _(github_event_name: str):
     """the GitHub event name is <github_event_name>."""
@@ -85,6 +102,52 @@ def _(github_ref: str):
 def _():
     """the GitHub repository is "cbdq-io/gitflow-action"."""
     return 'cbdq-io/gitflow-action'
+
+
+@then(parsers.parse('the assignee count is {expected_assignee_count:d}'))
+def _(
+    expected_assignee_count: int,
+    gitflow_main_branch: str,
+    gitflow_develop_branch: str,
+    gitflow_version_tag_prefix: str,
+    gitflow_release_candidate: str,
+    gitflow_prefixes: tuple[str],
+    github_ref: str,
+    github_event_name: str,
+    github_head_branch: str,
+    post_release_pr_assignees: str,
+):
+    """the GitFlow post-release assignee string is <post_release_pr_assignees>."""
+    from git_flow import GitFlow
+
+    mock_github_payload_event = '/tmp/mock_github_payload_event.json'  # noqa
+
+    os.environ['GITHUB_EVENT_NAME'] = github_event_name
+    os.environ['GITHUB_EVENT_PATH'] = mock_github_payload_event
+    os.environ['GITHUB_REF'] = github_ref
+    os.environ['ACTIONS_RUNNER_DEBUG'] = '1'
+
+    if github_event_name == 'pull_request':
+        payload = {'pull_request': {'base': {'ref': github_ref}, 'head': {'ref': github_head_branch}}}
+
+        with open(mock_github_payload_event, 'wt') as stream:
+            json.dump(payload, stream)
+
+    if gitflow_release_candidate == 'N/A':
+        gitflow_release_candidate = ''
+
+    gitflow = GitFlow(
+        gitflow_main_branch,
+        gitflow_develop_branch,
+        gitflow_version_tag_prefix,
+        gitflow_release_candidate,
+        post_release_pr_assignees,
+        *gitflow_prefixes,
+    )
+    assert gitflow.is_ok()
+    actual_assignee_count = len(gitflow.post_release_pr_assignees())
+    message = f'Expected {expected_assignee_count} assignees, but it is {actual_assignee_count}.'
+    assert actual_assignee_count == expected_assignee_count, message
 
 
 @then(parsers.parse('the expected outcome is {expected_outcome}'))
@@ -123,6 +186,7 @@ def _(
         gitflow_develop_branch,
         gitflow_version_tag_prefix,
         gitflow_release_candidate,
+        '',
         *gitflow_prefixes,
     )
     expected_outcome = expected_outcome == 'True'

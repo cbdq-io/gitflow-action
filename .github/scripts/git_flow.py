@@ -50,6 +50,9 @@ class GitFlow:
         The prefix to be applied to version tags.
     release_candidate : str
         The name of the next release.
+    post_release_pr_assignees : str
+        Comma-separated GitHub usernames to assign to post-release or hotfix
+        pull requests.
     prefixes : tuple
         The prefixes for the feature, bugfix, release, hotfix and support
         branches respectively.
@@ -61,6 +64,7 @@ class GitFlow:
         develop_branch: str,
         version_tag_prefix: str,
         release_candidate: str,
+        post_release_pr_assignees: str,
         *prefixes: tuple,
     ) -> None:
         """Create a GitFlow object."""
@@ -74,6 +78,7 @@ class GitFlow:
             'support': None,
         }
 
+        self._post_release_pr_assignees = []
         self._status = None
 
         self._logger = None
@@ -99,6 +104,7 @@ class GitFlow:
         self.support_branch_prefix(support_prefix)
         self.version_tag_prefix(version_tag_prefix)
         self.release_candidate(release_candidate)
+        self.post_release_pr_assignees(post_release_pr_assignees)
 
         event_name = os.getenv('GITHUB_EVENT_NAME', 'push')
         self.event_name(event_name)
@@ -338,7 +344,7 @@ class GitFlow:
         nltk.download('punkt_tab')
         body = nltk.word_tokenize(body)
         body = ' '.join(body)
-        api.pulls.create(
+        pr = api.pulls.create(
             self.owner,
             self.repo,
             title=f'Post Release {self.release_candidate()}',
@@ -346,6 +352,14 @@ class GitFlow:
             base=base_branch,
             body=body,
         )
+
+        if self.post_release_pr_assignees():
+            api.issues.add_assignees(
+                self.owner,
+                self.repo,
+                pr.number,
+                assignees=self.post_release_pr_assignees(),
+            )
 
     def create_tag(self, tag_name: str) -> None:
         """
@@ -582,6 +596,30 @@ class GitFlow:
 
         return self._branch['main']
 
+    def post_release_pr_assignees(self, post_release_pr_assignees: str = '') -> list[str]:
+        """
+        Get or set who the assignees of any post-release/hotfix PR.
+
+        Parameters
+        ----------
+        post_release_pr_assignees : str, optional
+            A comma separated list of assignees or blank of nobody is to be
+            assigned, by default ''.
+
+        Returns
+        -------
+        list[str]
+            The list of assignees.
+        """
+        if post_release_pr_assignees:
+            for assignee in post_release_pr_assignees.split(','):
+                assignee = assignee.strip()
+
+                if assignee:
+                    self._post_release_pr_assignees.append(assignee)
+
+        return self._post_release_pr_assignees
+
     def push_to_main(self) -> bool:
         """Run processes after pushing to main."""
         logger = self.logger()
@@ -703,7 +741,10 @@ if __name__ == '__main__':
     prefixes = sys.argv[3:8]
     version_tag_prefix = sys.argv[8]
     release_candidate = sys.argv[9]
-    gitflow = GitFlow(main_branch, develop_branch, version_tag_prefix, release_candidate, *prefixes)
+    post_release_pr_assignees = sys.argv[10]
+    gitflow = GitFlow(
+        main_branch, develop_branch, version_tag_prefix, release_candidate, post_release_pr_assignees, *prefixes
+    )
 
     try:
         if gitflow.is_ok():
