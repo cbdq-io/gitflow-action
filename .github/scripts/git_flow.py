@@ -9,8 +9,8 @@ import nltk
 from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
 
-__version__ = '1.1.0'
-api = GhApi()
+__version__ = '1.1.1'
+api = GhApi(sync=True)
 
 
 class PullRequest:

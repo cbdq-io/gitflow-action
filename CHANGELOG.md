@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 1.1.1 (2026-11-14)
+
+### Fix
+
+* Correct GhApi instance creation. [Ben Dalling]
+
+
 ## 1.1.0 (2026-11-13)
 
 ### Features
