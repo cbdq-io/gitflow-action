@@ -75,3 +75,14 @@ The token passed to the action must have the following
 | Contents   | Repository contents, commits, branches, downloads, releases, and merges. | Required to check/create branches and tags. |
 | Metadata   | Search repositories, list collaborators, and access repository metadata. | Every fine-grained token has this set. |
 | Pull requests | Pull requests and related comments, assignees, labels, milestones, and merges. | required to raise the pull request after a release/hotfix. |
+
+
+## Support Branches
+
+The way support branches have been implemented is in a way to support the
+following scenarios:
+
+- A support branch is created to support v1 called `support/v1` while the
+  `develop` branch diverges into v2.  From this point on, only hotfixes can be
+  applied to `support/v1`.
+- Hotfix branches for support branches should be named as `support/v1/hotfix/X.Y.Z`.

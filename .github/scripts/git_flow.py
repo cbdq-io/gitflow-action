@@ -9,7 +9,7 @@ import nltk
 from fastcore.net import HTTP401UnauthorizedError, HTTP403ForbiddenError
 from ghapi.all import GhApi
 
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 api = GhApi(sync=True)
 
 
@@ -218,11 +218,13 @@ class GitFlow:
 
         if self.active_branch().startswith(self.hotfix_branch_prefix()):
             valid_base_branches = [self.main_branch_name()]
-
-            if pull_request.base_branch.startswith(self.support_branch_prefix()):
-                valid_base_branches.append(pull_request.base_branch)
         elif self.active_branch().startswith(self.release_branch_prefix()):
             valid_base_branches = [self.main_branch_name()]
+        elif self.active_branch().startswith(self.support_branch_prefix()):
+            branch_seperator = '/'
+            items = self.active_branch().split(branch_seperator)
+
+            valid_base_branches = [branch_seperator.join(items[0:1]) + branch_seperator + items[1]]
 
         logger.debug(f'Valid base branches are "{", ".join(valid_base_branches)}".')
 
@@ -230,7 +232,7 @@ class GitFlow:
             logger.error(f'Base branch "{pull_request.base_branch}" is not suitable for "{pull_request.head_branch}".')
             self.status(False)
 
-        self.check_release_names()
+        return self.check_release_names()
 
     def check_branch_name(self) -> bool:
         """
@@ -246,12 +248,22 @@ class GitFlow:
         if branch_name in [self.main_branch_name(), self.develop_branch_name()]:
             return True
 
+        if branch_name.startswith(self.support_branch_prefix()):
+            items = branch_name.split('/')
+            item_count = len(items)
+
+            if item_count == 2:
+                return True
+            elif item_count == 4 and items[2] == 'hotfix':
+                return True
+            else:
+                return False
+
         prefixes = [
             self._prefix['feature'],
             self._prefix['bugfix'],
             self._prefix['release'],
             self._prefix['hotfix'],
-            self._prefix['support'],
         ]
         return any(branch_name.startswith(prefix) for prefix in prefixes if prefix)
 
@@ -266,12 +278,17 @@ class GitFlow:
         active_branch = self.active_branch()
         hotfix_prefix = self.hotfix_branch_prefix()
         release_prefix = self.release_branch_prefix()
+        support_prefix = self.support_branch_prefix()
         logger = self.logger()
 
         if release_candidate == '':
             logger.debug('No release candidate provided.')
             return
-        elif not active_branch.startswith(hotfix_prefix) and not active_branch.startswith(release_prefix):
+        elif (
+            not active_branch.startswith(hotfix_prefix)
+            and not active_branch.startswith(release_prefix)
+            and not active_branch.startswith(support_prefix)
+        ):
             logger.debug('Not a PR for a hotfix or release branch.')
             return
 

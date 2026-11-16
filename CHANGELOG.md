@@ -5,6 +5,15 @@
 
 ### Fix
 
+* Automate release creation on tag push. [Ben Dalling]
+
+* Implement and document support branches. [Ben Dalling]
+
+
+## 1.1.1 (2026-11-14)
+
+### Fix
+
 * Correct GhApi instance creation. [Ben Dalling]
 
 
