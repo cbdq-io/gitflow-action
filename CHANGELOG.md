@@ -1,9 +1,11 @@
 # Changelog
 
 
-## Unreleased
+## 1.1.2 (2026-11-16)
 
 ### Fix
+
+* Automate release creation on tag push. [Ben Dalling]
 
 * Implement and document support branches. [Ben Dalling]
 
