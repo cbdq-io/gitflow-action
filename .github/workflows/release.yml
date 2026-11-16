@@ -1,0 +1,68 @@
+---
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          fetch-tags: true
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.email "136103132+cbdqbot@users.noreply.github.com"
+          git config user.name "CBDQ Bot Account"
+
+      - name: Update Change Log
+        run: make changelog
+
+      - name: Git Add, Commit & Push
+        run: |
+          git status --porcelain
+
+          if git status --porcelain CHANGELOG.md | grep -q '^.[MADRC]'; then
+              git add CHANGELOG.md
+              git commit -m 'chg: dev: Update change log.'
+              git push origin main
+          fi
+
+      - name: Extract release notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          sed -n "/^## ${TAG} /,/^## /{
+              /^## ${TAG} /d
+              /^## /q
+              p
+          }" CHANGELOG.md > release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+              echo "No release notes found for ${TAG}"
+              exit 1
+          fi
+
+          cat release-notes.md
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+              --verify-tag \
+              --title "${{ github.ref_name }}" \
+              --notes-file release-notes.md
