@@ -1,6 +1,13 @@
 # Changelog
 
 
+## Unreleased
+
+### Fix
+
+* Implement and document support branches. [Ben Dalling]
+
+
 ## 1.1.1 (2026-11-14)
 
 ### Fix
