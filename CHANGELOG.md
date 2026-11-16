@@ -5,6 +5,8 @@
 
 ### Fix
 
+* Automate release creation on tag push. [Ben Dalling]
+
 * Implement and document support branches. [Ben Dalling]
 
 
