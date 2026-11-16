@@ -13,10 +13,12 @@ Feature: GitFlow Class
     Then the expected outcome is <expected_outcome>
 
     Examples:
-        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref      | expected_outcome |
-        | v                  | 0.1.0             | push              | main               | refs/tags/0.1.0 | True             |
-        | v                  | 0.1.0             | push              | N/A                | develop         | True             |
-        | v                  | 0.1.0             | tag               | main               | refs/tags/0.1.0 | True             |
+        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref                | expected_outcome |
+        | v                  | 0.1.0             | push              | main               | refs/tags/0.1.0           | True             |
+        | v                  | 0.1.0             | push              | N/A                | develop                   | True             |
+        | v                  | 0.1.0             | tag               | main               | refs/tags/0.1.0           | True             |
+        | v                  | N/A               | push              | N/A                | support/v1                | True             |
+        | v                  | N/A               | push              | N/A                | support/v1/hotfix/1.42.42 | True             |
 
   Scenario Outline: Invalid Pushes
     Given the GitFlow main branch is "main"
@@ -31,8 +33,10 @@ Feature: GitFlow Class
     Then the expected outcome is <expected_outcome>
 
     Examples:
-        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref      | expected_outcome |
-        | v                  | 0.1.0             | push              | N/A                | foo             | False            |
+        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref                 | expected_outcome |
+        | v                  | 0.1.0             | push              | N/A                | foo                        | False            |
+        | v                  | 0.1.0             | push              | N/A                | support/v1/1.42.42         | False            |
+        | v                  | 0.1.0             | push              | N/A                | support/v1/feature/1.42.42 | False            |
 
   Scenario Outline: Valid Pull Requests
     Given the GitFlow main branch is "main"
@@ -47,10 +51,11 @@ Feature: GitFlow Class
     Then the expected outcome is <expected_outcome>
 
     Examples:
-        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref      | expected_outcome |
-        | v                  | 0.1.0             | pull_request      | bugfix/foo         | develop         | True             |
-        | v                  | 0.1.0             | pull_request      | hotfix/0.1.0       | main            | True             |
-        | v                  | N/A               | pull_request      | release/0.1.1      | main            | True             |
+        | version_tag_prefix | release_candidate | github_event_name | github_head_branch        | github_ref      | expected_outcome |
+        | v                  | 0.1.0             | pull_request      | bugfix/foo                | develop         | True             |
+        | v                  | 0.1.0             | pull_request      | hotfix/0.1.0              | main            | True             |
+        | v                  | N/A               | pull_request      | release/0.1.1             | main            | True             |
+        | v                  | 1.42.42           | pull_request      | support/v1/hotfix/1.42.42 | support/v1      | True             |
 
   Scenario Outline: Invalid Pull Requests
     Given the GitFlow main branch is "main"
@@ -65,11 +70,14 @@ Feature: GitFlow Class
     Then the expected outcome is <expected_outcome>
 
     Examples:
-        | version_tag_prefix | release_candidate | github_event_name | github_head_branch | github_ref      | expected_outcome |
-        | v                  | 0.1.0             | pull_request      | fix/foo            | develop         | False            |
-        | v                  | 0.1.0             | pull_request      | release/0.1.0      | develop         | False            |
-        | v                  | 0.1.0             | pull_request      | release/0.1.1      | main            | False            |
-        | v                  | 0.1.0             | pull_request      | hotfix/0.1.1       | develop         | False            |
+        | version_tag_prefix | release_candidate | github_event_name | github_head_branch        | github_ref      | expected_outcome |
+        | v                  | 0.1.0             | pull_request      | fix/foo                   | develop         | False            |
+        | v                  | 0.1.0             | pull_request      | release/0.1.0             | develop         | False            |
+        | v                  | 0.1.0             | pull_request      | release/0.1.1             | main            | False            |
+        | v                  | 0.1.0             | pull_request      | hotfix/0.1.1              | develop         | False            |
+        | v                  | N/A               | pull_request      | support/v1/hotfix/1.42.42 | main            | False            |
+        | v                  | 0.1.0             | pull_request      | support/v1/hotfix/1.42.42 | support/v1      | False            |
+        | v                  | 1.42.42           | pull_request      | support/v2/hotfix/1.42.42 | support/v1      | False            |
 
   Scenario Outline: Post Release Assignee Handling
     Given the GitFlow main branch is "main"
